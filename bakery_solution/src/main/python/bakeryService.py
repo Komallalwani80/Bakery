@@ -1,18 +1,14 @@
-import logging
-
-
 def getMinPacks(availPacks, qty):
-    logging.info("Inside getMinPacks method...")
     container = {}
 
     for i in range(len(availPacks)):
-        if int(qty) % int(availPacks[i]) == 0:
+        if (int(qty) % int(availPacks[i]) == 0):
             x = (int(qty) // int(availPacks[i]))
             y = int(availPacks[i])
             container.__setitem__(str(x), str(y))
             break
 
-        elif int(qty) > int(availPacks[i]):
+        elif (int(qty) > int(availPacks[i])):
             if int(qty) % int(availPacks[i]) not in availPacks:
                 continue
             else:
@@ -28,9 +24,22 @@ def getMinPacks(availPacks, qty):
     return container
 
 
+def getBill(packs, price, x, pCode, totalQuant):
+    getPrice = 0
+    bill = " "
+    for key in x:
+        temp = x[str(key)]
+        pack_price = price[pCode]
+        k = pack_price[temp]
+
+        getPrice = getPrice + int(key) * float(k)
+        bill = bill + "\t" + str(key) + " " + "X" + " " + str(temp) + " " + "$" + str(k) + "\n"
+
+    print(str(totalQuant) + " " + pCode + " " + "$" + str(getPrice))
+    print(bill)
+
 
 if __name__ == '__main__':
-    logging.info("Inside main method.")
 
     packs = {"VS5": [5, 3], "MB11": [8, 5, 2], "CF": [9, 5, 3]}
     price = {"VS5": {'5': '8.99', '3': '6.99'}, "MB11": {'8': '24.95', '5': '16.95', '2': '9.95'},
@@ -58,18 +67,7 @@ if __name__ == '__main__':
         quantity = ord.split()
 
         x = getMinPacks(packs[quantity[1]], quantity[0])
-        print("Final Min Packs and it's quantity :", x)
+        # print("Final Min Packs and it's quantity :",x)
 
-
-
-
-
-
-
-
-
-
-
-
-
+        y = getBill(packs, price, x, quantity[1], quantity[0])
 
